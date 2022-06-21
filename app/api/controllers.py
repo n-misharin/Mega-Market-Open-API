@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify, abort, Response
+from flask import Blueprint, request, jsonify
 
 from .models import Product, Statistic
 from .utils import is_cor_uuid, ShopUnitStatisticUnit, ShopUnitImportRequest, ShopUnit, parse_iso, \
@@ -39,7 +39,7 @@ def delete(id):
     if not is_cor_uuid(id):
         raise ValidationException
 
-    Product.delete(id)
+    Product.delete_with_children(id)
 
     return json_message(200, 'Accepted')
 
@@ -49,17 +49,18 @@ def nodes(id):
     if not is_cor_uuid(id):
         raise ValidationException
 
-    products = Product.select(id)
+    if not Product.is_contains(id):
+        raise Exception
+
+    products = Product.select_tree(id)
 
     if len(products) == 0:
         raise Exception
 
-    products_dict = {
-        product.id: ShopUnit(
-            product.id, product.name, product.type_id,
-            product.update_date, product.parent_id, product.price
-        ) for product in products
-    }
+    products_dict = {product.id: ShopUnit(
+        product.id, product.name, product.type_id,
+        product.update_date, product.parent_id, product.price
+    ) for product in products}
 
     for key, val in products_dict.items():
         if val.parentId in products_dict.keys():
@@ -81,7 +82,7 @@ def sales():
 
     now = parse_iso(request.values['date'])
     day_before = now - datetime.timedelta(days=1)
-    res = Statistic.sales(day_before, now)
+    res = Statistic.select_offers(day_before, now)
 
     return jsonify({
         'items': [ShopUnitStatisticUnit(**product.to_dict(only=(
@@ -108,5 +109,4 @@ def validation_failed(error):
 
 @api_module.app_errorhandler(Exception)
 def not_found(error):
-    print(error)
     return json_message(404, 'Item not found'), 404

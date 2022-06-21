@@ -25,12 +25,12 @@ class Statistic(db.Model):
     # price = db.Column(db.Integer, nullable=True)
 
     @staticmethod
-    def sales(date_start, date_end):
+    def select_offers(date_start, date_end):
         return db.session.query(Product).join(Statistic).filter(
             Statistic.update_date >= date_start,
             Statistic.update_date <= date_end,
             Product.type_id == ProductType.get_id(ProductType.OFFER)
-        ).all()
+        ).distinct().all()
 
 
 class Product(db.Model, SerializerMixin):
@@ -60,7 +60,16 @@ class Product(db.Model, SerializerMixin):
     update_date = db.Column(db.DateTime(), nullable=False)
 
     @staticmethod
-    def select(id):
+    def is_contains(id):
+        try:
+            db.session.query(Product).filter(Product.id == id).one()
+        except NoResultFound as nrf:
+            return False
+
+        return True
+
+    @staticmethod
+    def select_tree(id):
         topq = db.session.query(Product). \
             filter(Product.id == id). \
             cte('cte', recursive=True)
@@ -106,15 +115,21 @@ class Product(db.Model, SerializerMixin):
 
             if product.parent_id is not None and \
                     product.parent_id not in used.keys():
+
                 used[product.parent_id] = False
+
                 p = db.session.query(Product). \
-                    filter(Product.id == product.parent_id). \
-                    first()
+                    filter(Product.id == product.parent_id).first()
+
                 products.add(p)
 
-            db.session.query(Product). \
-                filter(Product.id == product.id). \
-                update({'update_date': new_date})
+            db.session.query(Product).filter(Product.id == product.id).\
+                update({
+                    'update_date': new_date,
+                    'price': product.price,
+                    'name': product.name,
+                    'parent_id': product.parent_id
+                })
 
             db.session.add(Statistic(
                 product_id=product.id, update_date=new_date
@@ -123,7 +138,7 @@ class Product(db.Model, SerializerMixin):
         db.session.commit()
 
     @staticmethod
-    def delete(id: str):
+    def delete_with_children(id):
         product = Product.query.filter_by(id=id).first_or_404()
         db.session.delete(product)
         db.session.commit()
