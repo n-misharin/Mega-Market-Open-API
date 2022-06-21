@@ -21,8 +21,9 @@ class Statistic(db.Model):
 
     update_date = db.Column(db.DateTime(), nullable=False)
 
-    #  TODO: column price in statistics
-    # price = db.Column(db.Integer, nullable=True)
+    price = db.Column(db.Integer, nullable=True)
+
+    name = db.Column(db.String, nullable=False)
 
     @staticmethod
     def select_offers(date_start, date_end):
@@ -93,22 +94,25 @@ class Product(db.Model, SerializerMixin):
                 p_copy = db.session.query(Product). \
                     filter(Product.id == product.id).one()
                 if p_copy.type_id != product.type_id:
-                    """ Attempt change type (404). """
+                    """ Нельзя менять тип товара/категории (404). """
                     raise Exception
             except NoResultFound as nrf:
-                """ Product not contains in database. """
+                """ Нет в базе данных. """
                 inserts.append(product)
-
-        """ bfs preprocessing. """
-        used = {p.id: False for p in products}
-        products = set(products)
 
         for product in inserts:
             db.session.add(product)
-            used[product.id] = True
         db.session.commit()
 
-        """ bfs: move up to parent tree. Updating all parents and statistics. """
+        """ 
+        Предпроцессинг поиска в дереве: 
+            used - посещенные вершины;
+            из products делаем множество для быстрого поиска элемента.
+        """
+        used = {p.id: False for p in products}
+        products = set(products[:])
+
+        """ Поиск в дереве: идем вверх (к корню) по дереву. """
         while len(products) != 0:
             product = products.pop()
             used[product.id] = True
@@ -118,10 +122,10 @@ class Product(db.Model, SerializerMixin):
 
                 used[product.parent_id] = False
 
-                p = db.session.query(Product). \
+                parent = db.session.query(Product). \
                     filter(Product.id == product.parent_id).first()
 
-                products.add(p)
+                products.add(parent)
 
             db.session.query(Product).filter(Product.id == product.id).\
                 update({
@@ -131,8 +135,12 @@ class Product(db.Model, SerializerMixin):
                     'parent_id': product.parent_id
                 })
 
+            """ Сохранение старых данных. """
             db.session.add(Statistic(
-                product_id=product.id, update_date=new_date
+                product_id=product.id,
+                update_date=new_date,
+                price=product.price,
+                name=product.name
             ))
 
         db.session.commit()
