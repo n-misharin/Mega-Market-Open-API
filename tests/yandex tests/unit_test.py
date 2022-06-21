@@ -8,7 +8,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-API_BASEURL = "http://localhost:80"
+API_BASEURL = "http://127.0.0.1:5000"
 
 ROOT_ID = "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
 
@@ -262,7 +262,7 @@ def test_delete():
     status, _ = request(f"/delete/{ROOT_ID}", method="DELETE")
     assert status == 200, f"Expected HTTP status code 200, got {status}"
 
-    status, _ = request(f"/nodes/{ROOT_ID}", json_response=True)
+    status, d = request(f"/nodes/{ROOT_ID}", json_response=True)
     assert status == 404, f"Expected HTTP status code 404, got {status}"
 
     print("Test delete passed.")
