@@ -114,7 +114,10 @@ class ShopUnit(ShopUnitStatisticUnit):
                 res_price += price
                 res_count += count
 
-            self.price = res_price // res_count
+            if res_count != 0:
+                self.price = res_price // res_count
+            else:
+                self.price = None
 
             return res_count, res_price
 
