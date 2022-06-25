@@ -2,9 +2,9 @@ import datetime
 
 from flask import Blueprint, request, jsonify
 
-from .models import Product, Statistic
-from .utils import is_cor_uuid, ShopUnitStatisticUnit, ShopUnitImportRequest, ShopUnit, parse_iso, \
-    ProductType, ValidationException
+from .models import ProductTree, ShopUnitImportRequest, Product, Statistic
+from .utils import ValidationException, ItemNotFoundException, parse_iso, \
+    is_cor_uuid
 
 api_module = Blueprint('api', __name__, url_prefix='')
 
@@ -15,21 +15,18 @@ def json_message(code, message):
 
 @api_module.post('/imports')
 def imports():
-    import_request = ShopUnitImportRequest(**request.json)
+    try:
+        import_data = ShopUnitImportRequest(**request.json)
+        ProductTree.add_or_update_all(import_data.get_products_list())
+        """ 
+        Обновляем статистику после изменений товаров/категорий, 
+        т.к. гарантируется, что updateDate возрастает с каждым запросом. 
+        """
+        Product.write_statistics(import_data.update_date)
 
-    if not all([is_cor_uuid(item.id) for item in import_request.items]):
+    except Exception as error:
+        print(error)
         raise ValidationException
-
-    if len(import_request.items) != len(set(import_request.items)):
-        raise ValidationException
-
-    import_units = [Product(
-        id=item.id, name=item.name, parent_id=item.parentId,
-        price=item.price, type_id=ProductType.get_id(item.type),
-        update_date=import_request.updateDate
-    ) for item in import_request.items]
-
-    Product.add_or_update_tree(import_units)
 
     return json_message(200, 'Accepted')
 
@@ -39,7 +36,10 @@ def delete(id):
     if not is_cor_uuid(id):
         raise ValidationException
 
-    Product.delete_with_children(id)
+    try:
+        ProductTree.remove_node(id)
+    except Exception:
+        raise ItemNotFoundException
 
     return json_message(200, 'Accepted')
 
@@ -49,27 +49,10 @@ def nodes(id):
     if not is_cor_uuid(id):
         raise ValidationException
 
-    if not Product.is_contains(id):
-        raise Exception
-
-    products = Product.select_tree(id)
-
-    if len(products) == 0:
-        raise Exception
-
-    products_dict = {product.id: ShopUnit(
-        product.id, product.name, product.type_id,
-        product.update_date, product.parent_id, product.price
-    ) for product in products}
-
-    for key, val in products_dict.items():
-        if val.parentId in products_dict.keys():
-            products_dict[val.parentId].add_child(val)
-
-    #  TODO: calc price on database level
-    products_dict[id].calc_price()
-
-    return jsonify(products_dict[id].to_dict())
+    try:
+        return jsonify(ProductTree.get_subtree(id))
+    except Exception:
+        raise ItemNotFoundException
 
 
 """ Дополнительные задания. """
@@ -77,18 +60,12 @@ def nodes(id):
 
 @api_module.get('/sales')
 def sales():
-    if 'date' not in request.values.keys():
+    try:
+        now = parse_iso(request.values['date'])
+        day_before = now - datetime.timedelta(days=1)
+        return jsonify(Product.get_from_period(day_before, now))
+    except Exception as e:
         raise ValidationException
-
-    now = parse_iso(request.values['date'])
-    day_before = now - datetime.timedelta(days=1)
-    res = Statistic.select_offers(day_before, now)
-
-    return jsonify({
-        'items': [ShopUnitStatisticUnit(**product.to_dict(only=(
-            'name', 'id', 'update_date', 'parent_id', 'price', 'type_id'
-        ))).__dict__ for product in res]
-    })
 
 
 @api_module.get('/node/<id>/statistic')
@@ -96,10 +73,19 @@ def node_statistic(id):
     if not is_cor_uuid(id):
         raise ValidationException
 
-    if 'dateStart' in request.values and 'dateEnd' in request.values:
-        pass
+    date_start = request.values.get('dateStart', None)
+    date_end = request.values.get('dateEnd', None)
 
-    return json_message(200, 'Not realized')
+    if date_end is not None and date_start is not None:
+        try:
+            date_start = parse_iso(date_start)
+            date_end = parse_iso(date_end)
+        except Exception:
+            raise ValidationException
+
+    res = Statistic.get(id, date_start, date_end)
+
+    return jsonify(res)
 
 
 @api_module.app_errorhandler(ValidationException)
@@ -107,6 +93,6 @@ def validation_failed(error):
     return json_message(400, 'Validation Failed'), 400
 
 
-@api_module.app_errorhandler(Exception)
+@api_module.app_errorhandler(ItemNotFoundException)
 def not_found(error):
     return json_message(404, 'Item not found'), 404
