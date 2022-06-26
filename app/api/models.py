@@ -118,12 +118,13 @@ class Product(db.Model, SerializerMixin):
             name=self.name, price=self.price, type_id=self.type_id,
             parent_id=self.parent_id, count=self.count)
 
-    # @staticmethod
-    # def write_statistics(date):
-    #     updated = db.session.query(Product). \
-    #         filter(Product.update_date == date).all()
-    #     db.session.add_all([product.get_statistic() for product in updated])
-    #     db.session.commit()
+    @staticmethod
+    def write_statistics(date):
+        """ Inserts Products where update_date == date to table 'statistics'. """
+        updated = db.session.query(Product). \
+            filter(Product.update_date == date).all()
+        db.session.add_all([product.get_statistic() for product in updated])
+        db.session.commit()
 
     @staticmethod
     def get_from_period(start_date: datetime.datetime,

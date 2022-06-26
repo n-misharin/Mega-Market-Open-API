@@ -16,6 +16,7 @@ def json_message(code, message):
 
 @api_module.post('/imports')
 def imports():
+    print(request.json)
     try:
         import_data = ShopUnitImportRequest(**request.json)
         ProductTree.add_or_update_all(import_data.get_products_list())
@@ -25,7 +26,8 @@ def imports():
         """
         Product.write_statistics(import_data.update_date)
 
-    except Exception as error:
+    except Exception as e:
+        print(e)
         raise ValidationException
 
     return json_message(200, 'Accepted')
