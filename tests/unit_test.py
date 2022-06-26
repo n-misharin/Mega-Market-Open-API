@@ -453,6 +453,46 @@ def test_cascade_update():
     print("Test cascade update date passed.")
 
 
+def test_json_groups():
+    with open('json_groups/test_group.json', mode='r', encoding='utf-8') as file:
+        tests = json.load(file)
+        test_number = 0
+        for test in tests['tests']:
+            test_number += 1
+            if test['url'].startswith('/imports'):
+                status, response = request(
+                    test['url'], method=test['method'], data=test['data'],
+                    json_response=True)
+
+                assert status == test['result']['status'], \
+                    f'Expected HTTP status code 200, got {status}'
+
+                assert response == test['result']['json'], \
+                    f"Invalid request body: {response}"
+
+            elif test['url'].startswith('/nodes'):
+                status, response = request(
+                    test['url'], method=test['method'], json_response=True)
+
+                assert status == test['result']['status'], \
+                    f"Expected HTTP status code {test['result']['status']}, got {status}"
+
+                if status == 200:
+                    check_nodes(test['result']['json'], response)
+
+            elif test['url'].startswith('/delete'):
+                status, _ = request(test['url'], method=test['method'])
+
+                assert status == test['result']['status'], \
+                    f"Expected HTTP status code {test['result']['status']}, got {status}"
+            else:
+                print(f'Test {test_number} missing!')
+
+            print(f'Test {test_number} passed.')
+
+    print('Test group passed')
+
+
 def test_all():
     """ Base test. """
     test_import()
@@ -465,6 +505,8 @@ def test_all():
     test_cascade_delete()
     test_invalid_uuid()
     test_cascade_update()
+
+    test_json_groups()
 
 
 def main():
