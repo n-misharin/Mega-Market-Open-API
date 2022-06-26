@@ -21,9 +21,7 @@ class ProductType:
 
 
 def is_cor_uuid(_uuid: str) -> bool:
-    """ Проверяет uuid-строку на корректность. """
-    # return True
-    # TODO: delete comments
+    """ Checks the uuid string for correctness. """
     try:
         u = uuid.UUID(_uuid)
         return True
@@ -34,10 +32,12 @@ def is_cor_uuid(_uuid: str) -> bool:
 
 
 def date_to_iso(date: datetime.datetime) -> str:
+    """ Date to application ISO string format. """
     return date.isoformat(timespec='milliseconds') + 'Z'
 
 
 def parse_iso(date: str) -> datetime.datetime:
+    """ Parse application ISO string format. """
     return datetime.datetime.strptime(
         date, '%Y-%m-%dT%H:%M:%S.%fZ')
 

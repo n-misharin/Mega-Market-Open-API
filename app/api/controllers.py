@@ -10,6 +10,7 @@ api_module = Blueprint('api', __name__, url_prefix='')
 
 
 def json_message(code, message):
+    """ Convert dict(code=code, message=message) to json. """
     return jsonify({'code': code, 'message': message})
 
 
@@ -25,7 +26,6 @@ def imports():
         Product.write_statistics(import_data.update_date)
 
     except Exception as error:
-        print(error)
         raise ValidationException
 
     return json_message(200, 'Accepted')

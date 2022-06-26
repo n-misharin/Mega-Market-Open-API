@@ -494,6 +494,8 @@ def test_json_groups():
 
 
 def test_all():
+    """ Call all 'test_' functions. """
+
     """ Base test. """
     test_import()
     test_nodes()
@@ -505,7 +507,6 @@ def test_all():
     test_cascade_delete()
     test_invalid_uuid()
     test_cascade_update()
-
     test_json_groups()
 
 
