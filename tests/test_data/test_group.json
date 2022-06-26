@@ -1,0 +1,608 @@
+{
+  "tests": [
+    {
+      "url": "/imports",
+      "method": "post",
+      "data": {
+        "items": [
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+            "name": "cat 1",
+            "price": null,
+            "parentId": null,
+            "type": "CATEGORY"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269002",
+            "name": "off 2",
+            "price": 200,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+            "type": "OFFER"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+            "name": "cat 3",
+            "price": null,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+            "type": "CATEGORY"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+            "name": "cat 4",
+            "parentId": null,
+            "type": "CATEGORY"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+            "name": "cat 5",
+            "type": "CATEGORY"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269006",
+            "name": "off 6",
+            "type": "OFFER",
+            "price": 600
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269007",
+            "name": "off 7",
+            "type": "OFFER",
+            "price": 700,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269008",
+            "name": "off 8",
+            "type": "OFFER",
+            "price": 800,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269009",
+            "name": "off 9",
+            "type": "OFFER",
+            "price": 900,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269010",
+            "name": "off 10",
+            "type": "OFFER",
+            "price": 1000,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269011",
+            "name": "off 11",
+            "type": "OFFER",
+            "price": 1100,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269012",
+            "name": "off 12",
+            "type": "OFFER",
+            "price": 1200,
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269013",
+            "name": "cat 13",
+            "type": "CATEGORY",
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003"
+          }
+        ],
+        "updateDate": "2000-02-22T22:22:22.000Z"
+      },
+      "result": {
+        "status": 200,
+        "json": {
+          "code": 200,
+          "message": "Accepted"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+      "method": "get",
+      "result": {
+        "status": 200,
+        "json": {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "date": "2000-02-22T22:22:22.000Z",
+                  "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269013",
+                  "name": "cat 13",
+                  "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+                  "price": null,
+                  "type": "CATEGORY"
+                },
+                {
+                  "children": null,
+                  "date": "2000-02-22T22:22:22.000Z",
+                  "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269012",
+                  "name": "off 12",
+                  "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+                  "price": 1200,
+                  "type": "OFFER"
+                },
+                {
+                  "children": null,
+                  "date": "2000-02-22T22:22:22.000Z",
+                  "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269002",
+                  "name": "off 2",
+                  "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+                  "price": 200,
+                  "type": "OFFER"
+                }
+              ],
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+              "name": "cat 3",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+              "price": 700,
+              "type": "CATEGORY"
+            },
+            {
+              "children": null,
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269011",
+              "name": "off 11",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+              "price": 1100,
+              "type": "OFFER"
+            },
+            {
+              "children": null,
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269010",
+              "name": "off 10",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+              "price": 1000,
+              "type": "OFFER"
+            }
+          ],
+          "date": "2000-02-22T22:22:22.000Z",
+          "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+          "name": "cat 1",
+          "parentId": null,
+          "price": 875,
+          "type": "CATEGORY"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+      "method": "get",
+      "result": {
+        "status": 200,
+        "json": {
+          "children": [],
+          "date": "2000-02-22T22:22:22.000Z",
+          "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+          "name": "cat 4",
+          "parentId": null,
+          "price": null,
+          "type": "CATEGORY"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+      "method": "get",
+      "result": {
+        "status": 200,
+        "json": {
+          "children": [
+            {
+              "children": null,
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269009",
+              "name": "off 9",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+              "price": 900,
+              "type": "OFFER"
+            },
+            {
+              "children": null,
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269008",
+              "name": "off 8",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+              "price": 800,
+              "type": "OFFER"
+            },
+            {
+              "children": null,
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269007",
+              "name": "off 7",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+              "price": 700,
+              "type": "OFFER"
+            }
+          ],
+          "date": "2000-02-22T22:22:22.000Z",
+          "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+          "name": "cat 5",
+          "parentId": null,
+          "price": 800,
+          "type": "CATEGORY"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269006",
+      "method": "get",
+      "result": {
+        "status": 200,
+        "json": {
+          "children": null,
+          "date": "2000-02-22T22:22:22.000Z",
+          "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269006",
+          "name": "off 6",
+          "parentId": null,
+          "price": 600,
+          "type": "OFFER"
+        }
+      }
+    },
+    {
+      "url": "/imports",
+      "method": "post",
+      "data": {
+        "items": [
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+            "type": "CATEGORY",
+            "name": "cat 3"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269014",
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+            "type": "OFFER",
+            "price": 1400,
+            "name": "14"
+          }
+        ],
+        "updateDate": "2001-02-22T22:22:22.000Z"
+      },
+      "result": {
+        "status": 200,
+        "json": {
+          "code": 200,
+          "message": "Accepted"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+      "method": "get",
+      "result": {
+        "status": 200,
+        "json": {
+          "children": [
+            {
+              "children": null,
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269011",
+              "name": "off 11",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+              "price": 1100,
+              "type": "OFFER"
+            },
+            {
+              "children": null,
+              "date": "2000-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269010",
+              "name": "off 10",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+              "price": 1000,
+              "type": "OFFER"
+            }
+          ],
+          "date": "2001-02-22T22:22:22.000Z",
+          "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+          "name": "cat 1",
+          "parentId": null,
+          "price": 1050,
+          "type": "CATEGORY"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+      "method": "get",
+      "result": {
+        "status": 200,
+        "json": {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "date": "2000-02-22T22:22:22.000Z",
+                  "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269013",
+                  "name": "cat 13",
+                  "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+                  "price": null,
+                  "type": "CATEGORY"
+                },
+                {
+                  "children": null,
+                  "date": "2000-02-22T22:22:22.000Z",
+                  "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269012",
+                  "name": "off 12",
+                  "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+                  "price": 1200,
+                  "type": "OFFER"
+                },
+                {
+                  "children": null,
+                  "date": "2000-02-22T22:22:22.000Z",
+                  "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269002",
+                  "name": "off 2",
+                  "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+                  "price": 200,
+                  "type": "OFFER"
+                },
+                {
+                  "children": null,
+                  "date": "2001-02-22T22:22:22.000Z",
+                  "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269014",
+                  "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+                  "type": "OFFER",
+                  "price": 1400,
+                  "name": "14"
+                }
+              ],
+              "date": "2001-02-22T22:22:22.000Z",
+              "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+              "name": "cat 3",
+              "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+              "price": 933,
+              "type": "CATEGORY"
+            }
+          ],
+          "date": "2001-02-22T22:22:22.000Z",
+          "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+          "name": "cat 4",
+          "parentId": null,
+          "price": 933,
+          "type": "CATEGORY"
+        }
+      }
+    },
+    {
+      "url": "/imports",
+      "method": "post",
+      "data": {
+        "items": [
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269013",
+            "type": "CATEGORY",
+            "name": "1"
+          },
+          {
+            "id": "069cb8d7-bbdd-47d3-ad8f-82ef4c269014",
+            "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+            "type": "OFFER",
+            "price": 1414,
+            "name": "14"
+          }
+        ],
+        "updateDate": "2002-02-22T22:22:22.000Z"
+      },
+      "result": {
+        "status": 200,
+        "json": {
+          "code": 200,
+          "message": "Accepted"
+        }
+      }
+    },
+    {
+      "url": "/delete/069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+      "method": "delete",
+      "result": {
+        "status": 200,
+        "json": {
+          "code": 200,
+          "message": "Accepted"
+        }
+      }
+    },
+    {
+      "url": "/delete/069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+      "method": "delete",
+      "result": {
+        "status": 200,
+        "json": {
+          "code": 200,
+          "message": "Accepted"
+        }
+      }
+    },
+    {
+      "url": "/delete/069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+      "method": "delete",
+      "result": {
+        "status": 200,
+        "json": {
+          "code": 200,
+          "message": "Accepted"
+        }
+      }
+    },
+    {
+      "url": "/delete/069cb8d7-bbdd-47d3-ad8f-82ef4c269006",
+      "method": "delete",
+      "result": {
+        "status": 200,
+        "json": {
+          "code": 200,
+          "message": "Accepted"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269002",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269003",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269004",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269005",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269006",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269007",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269008",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269009",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269010",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269011",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269012",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269013",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    },
+    {
+      "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269014",
+      "method": "get",
+      "result": {
+        "status": 404,
+        "json": {
+          "code": 404,
+          "message": "Item not found"
+        }
+      }
+    }
+  ]
+}

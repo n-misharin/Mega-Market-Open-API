@@ -183,6 +183,7 @@ def request(path, method="GET", data=None, json_response=False):
 
         with urllib.request.urlopen(req) as res:
             res_data = res.read().decode("utf-8")
+
             if json_response:
                 res_data = json.loads(res_data)
             return (res.getcode(), res_data)
@@ -449,7 +450,7 @@ def test_cascade_update():
     status, _ = request(f"/delete/{root_id}", method="DELETE")
     assert status == 200, f"Expected HTTP status code 200, got {status}"
 
-    print("Test update date passed.")
+    print("Test cascade update date passed.")
 
 
 def test_all():
