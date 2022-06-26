@@ -8,7 +8,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-API_BASEURL = "http://127.0.0.1:5000"
+API_BASEURL = "https://funded-1989.usr.yandex-academy.ru"
 
 ROOT_ID = "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
 
@@ -461,7 +461,7 @@ def test_json_groups():
             test_number += 1
             if test['url'].startswith('/imports'):
                 status, response = request(
-                    test['url'], method=test['method'], data=test['data'],
+                    test['url'], method=test['method'].upper(), data=test['data'],
                     json_response=True)
 
                 assert status == test['result']['status'], \
@@ -472,7 +472,7 @@ def test_json_groups():
 
             elif test['url'].startswith('/nodes'):
                 status, response = request(
-                    test['url'], method=test['method'], json_response=True)
+                    test['url'], method=test['method'].upper(), json_response=True)
 
                 assert status == test['result']['status'], \
                     f"Expected HTTP status code {test['result']['status']}, got {status}"
@@ -481,7 +481,7 @@ def test_json_groups():
                     check_nodes(test['result']['json'], response)
 
             elif test['url'].startswith('/delete'):
-                status, _ = request(test['url'], method=test['method'])
+                status, _ = request(test['url'], method=test['method'].upper())
 
                 assert status == test['result']['status'], \
                     f"Expected HTTP status code {test['result']['status']}, got {status}"

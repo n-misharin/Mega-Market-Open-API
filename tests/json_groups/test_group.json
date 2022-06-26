@@ -2,7 +2,7 @@
   "tests": [
     {
       "url": "/imports",
-      "method": "post",
+      "method": "POST",
       "data": {
         "items": [
           {
@@ -104,7 +104,7 @@
     },
     {
       "url": "/nodes/069cb8d7-bbdd-47d3-ad8f-82ef4c269001",
-      "method": "get",
+      "method": "GET",
       "result": {
         "status": 200,
         "json": {
