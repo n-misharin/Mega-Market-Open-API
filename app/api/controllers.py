@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify
 
 from .models import ProductTree, ShopUnitImportRequest, Product, Statistic
 from .utils import ValidationException, ItemNotFoundException, parse_iso, \
@@ -16,18 +16,16 @@ def json_message(code, message):
 
 @api_module.post('/imports')
 def imports():
-    print(request.json)
     try:
         import_data = ShopUnitImportRequest(**request.json)
         ProductTree.add_or_update_all(import_data.get_products_list())
-        """ 
-        Обновляем статистику после изменений товаров/категорий, 
-        т.к. гарантируется, что updateDate возрастает с каждым запросом. 
-        """
+
+        # Обновляем статистику после изменений товаров/категорий,
+        # т.к. гарантируется, что updateDate возрастает с каждым запросом.
+
         Product.write_statistics(import_data.update_date)
 
     except Exception as e:
-        print(e)
         raise ValidationException
 
     return json_message(200, 'Accepted')
@@ -65,6 +63,8 @@ def sales():
     try:
         now = parse_iso(request.values['date'])
         day_before = now - datetime.timedelta(days=1)
+        # Данные получаем из таблицы products, т.к.
+        # в запросах все даты возрастают.
         return jsonify(Product.get_from_period(day_before, now))
     except Exception as e:
         raise ValidationException
